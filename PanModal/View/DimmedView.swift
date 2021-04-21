@@ -24,6 +24,8 @@ public class DimmedView: UIView {
     }
 
     // MARK: - Properties
+    private let blur = UIBlurEffect(style: .dark)
+    private let visualEffectView = UIVisualEffectView()
 
     /**
      The state of the dimmed view
@@ -60,6 +62,9 @@ public class DimmedView: UIView {
         alpha = 0.0
         backgroundColor = dimColor
         addGestureRecognizer(tapGesture)
+     
+        self.visualEffectView.effect = blur
+        self.setupViews()
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -71,6 +76,15 @@ public class DimmedView: UIView {
     @objc private func didTapView() {
         didTap?(tapGesture)
     }
-
+ 
+    private func setupViews() {
+        self.addSubview(visualEffectView)
+        
+        visualEffectView.translatesAutoresizingMaskIntoConstraints = false
+        visualEffectView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        visualEffectView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        visualEffectView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        visualEffectView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+    }
 }
 #endif
